@@ -1,0 +1,15 @@
+{
+  "author": "Mihai Ciuraru <mihaixc@gmail.com>",
+  "name": "simplemon",
+  "description": "Simple file monitor that executes commands each time a file changes",
+  "version": "1.0.0",
+  "repository": {
+    "url": ""
+  },
+  "dependencies": {},
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}
