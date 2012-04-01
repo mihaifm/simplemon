@@ -36,6 +36,8 @@ Calls jade to render .jade files into .html. In this case the .smonignore file s
     *
     !*.jade
 
+<div></div>
+
     simplemon node app.js
 
 Starts node. Each time a file changes within the current directory, the node process is killed and restarted (it works the same way as [nodemon](https://github.com/remy/nodemon)).
@@ -63,7 +65,7 @@ If a COMMAND is launched with no wildcard {} (for instance `node app.js`), the p
 
 If a COMMAND is launched with a wilcard {}, the process is restarted only when file received as a parameter changes.
 
-If false, a new process is launced without killing the existing one.
+If false, a new process is launched without killing the existing one.
 
 __restartDelay__ : Delays the restart of the process with the given value (miliseconds). This should allow some processes to do cleanup after they received the kill message.
 
