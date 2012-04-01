@@ -33,8 +33,8 @@ Appends the full path of each modified file to log.txt
 
 Calls jade to render .jade files into .html. In this case the .smonignore file should ignore anything else except .jade:
 
-`*
-!*.jade`
+    *
+    !*.jade
 
     simplemon node app.js
 
@@ -62,6 +62,8 @@ __restart__ : If true, the processes that are already running are restarted.
 If a COMMAND is launched with no wildcard {} (for instance `node app.js`), the process is restarted each time a file changes within its directory.
 
 If a COMMAND is launched with a wilcard {}, the process is restarted only when file received as a parameter changes.
+
+If false, a new process is launced without killing the existing one.
 
 __restartDelay__ : Delays the restart of the process with the given value (miliseconds). This should allow some processes to do cleanup after they received the kill message.
 
