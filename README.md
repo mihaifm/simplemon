@@ -16,6 +16,7 @@ The command supports a wildcard, `{}` , which is replaced with the modified file
 (similar to the {} wildcard of `find -exec`).
 
 File tracking works recursively on subfolders.
+
 Ignore rules can be specified in a `.smonignore` file. The rules work in the `.gitignore` fashion.
 
 ### Examples
@@ -31,8 +32,9 @@ Appends the full path of each modified file to log.txt
 	simplemon jade -O ouput {}
 
 Calls jade to render .jade files into .html. In this case the .smonignore file should ignore anything else except .jade:
-    \*
-    !\*.jade
+
+`*
+!*.jade`
 
     simplemon node app.js
 
@@ -52,10 +54,13 @@ Here are the options and their default values:
 	}
 
 __threshold__ : interval (in miliseconds) inside which changes to the same file are ignored.
+
 For example, a file save triggers a COMMAND to be launched by simplemon. If the same file is saved again withing the 200ms threshold interval, the COMMAND is not launched a second time. 
 
-__restart__ : If true, the processes that are already running are restarted. 
+__restart__ : If true, the processes that are already running are restarted.
+
 If a COMMAND is launched with no wildcard {} (for instance `node app.js`), the process is restarted each time a file changes within its directory.
+
 If a COMMAND is launched with a wilcard {}, the process is restarted only when file received as a parameter changes.
 
 __restartDelay__ : Delays the restart of the process with the given value (miliseconds). This should allow some processes to do cleanup after they received the kill message.
