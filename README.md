@@ -25,7 +25,7 @@ Ignore rules can be specified in a `.smonignore` file. The rules work in the `.g
 
 	simplemon echo Something changed
 
- 2\. Log modified the full path of each modified file (make sure to add an ignore rule for log.txt)
+ 2\. Log the full path of each modified file (make sure to add an ignore rule for log.txt)
 
     simplemon echo {} >> log.txt
 
