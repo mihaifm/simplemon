@@ -21,15 +21,15 @@ Ignore rules can be specified in a `.smonignore` file. The rules work in the `.g
 
 ### Examples
 
-1. Prints something whenever a file changes
+ 1\. Prints something whenever a file changes
 
 	simplemon echo Something changed
 
-2. Log modified the full path of each modified file (make sure to add an ignore rule for log.txt)
+ 2\. Log modified the full path of each modified file (make sure to add an ignore rule for log.txt)
 
     simplemon echo {} >> log.txt
 
-3. Calls jade to render .jade files into .html, each time a .jade file changes. 
+ 3\. Calls jade to render .jade files into .html, each time a .jade file changes. 
 
 	simplemon jade -O output {}
 
@@ -38,7 +38,7 @@ In this case the .smonignore file should ignore anything else except .jade:
     *
     !*.jade
 
-4. Restart node each time a file changes somewhere in the current directory:
+ 4\. Restart node each time a file changes somewhere in the current directory:
 
     simplemon node app.js
 
@@ -67,7 +67,7 @@ If piping or redirection are needed, setting the command in the config file is t
 Also, in this scenario, `"restart"` needs to be `false` (see the restart option below).
 
 *Example:*
-Log each modified file that contains a keyword:
+Log each line that contains a keyword from a modified file:
 
 smonconfig.json
 
@@ -97,7 +97,7 @@ If a COMMAND is launched with a wilcard {}, the process is restarted only when f
 
 If false, a new process is launched without killing the existing one.
 
-*Note:* When `"restart: true"` simplemon needs to kill/restart a single running process, therefore command chaining (piping, etc.) is not possible.
+*Note:* When `"restart: true"` simplemon needs to kill/restart a single running process, therefore command chaining (piping, etc.) will not work.
 
 __restartDelay__ : Delays the restart of the process with the given value (milliseconds). This should allow some processes to do cleanup after they received the kill message.
 
