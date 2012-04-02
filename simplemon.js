@@ -4,7 +4,6 @@ var path = require('path');
 var spawn = require('child_process').spawn;
 var exec = require('child_process').exec;
 var platform = process.platform;
-var cmd = null;
 var watchedFiles = {};
 var resolvedFiles = {};
 var runningChildren = {};
@@ -13,17 +12,20 @@ var config = readConfig();
 var print = function(msg) { 
 	process.stderr.write(msg); 
 }
+var app = '';
+var appargs = [];
 
 //interval (miliseconds) inside which changes to the same file are ignored
-var threshold = config.threshold || 200; 
+var threshold = config.threshold ; 
 
 //restart the process when the file changes (set to false to let it finish)
-var restart = config.restart || true;
+var restart = config.restart;
 
 //the grace period (miliseconds) given to a process after the kill signal was sent, before restarting it
-var restartDelay = config.restartDelay || 500;
+var restartDelay = config.restartDelay;
 
-var debug = config.debug || 0;
+var debug = config.debug;
+var cmd = config.command;
 
 function start()
 {
@@ -85,12 +87,6 @@ function runcmd(filename)
 		//use exec here since we don't need to kill the process
 		runningChildren[filename] = exec(temp_cmd, function (error, stdout, stderr) {
 
-				if (stdout && stdout.length > 0)
-	    			process.stdout.write(stdout);
-
-	    		if (stderr && stderr.length > 0)
-	    			process.stderr.write(stderr);
-
 	    		if (error !== null) {
 	      			print('\x1B[1;31m\n(simplemon) process crashed\n\n\x1B[0m');
 	      			runningChildren[filename] = null;
@@ -109,22 +105,16 @@ function runcmd(filename)
 		process.stdin.pipe(runningChildren[filename].stdin);
 	
 		runningChildren[filename].stdout.pipe(process.stdout);
-		runningChildren[filename].stderr.pipe(process.stdout);
+		runningChildren[filename].stderr.pipe(process.stderr);
 	}
 	else
 	{
-		var app = process.argv[2];
-		var args = [];
-
-		if (process.argv.length > 3)
-			args = process.argv.slice(3);
-
-		for (var i = 0; i < args.length; i++)
+		for (var i = 0; i < appargs.length; i++)
 		{
-			args[i] = args[i].replace(/{}/g, filename);
+			appargs[i] = appargs[i].replace(/{}/g, filename);
 		}
 
-		var child = spawn(app, args);
+		var child = spawn(app, appargs);
 
 		runningChildren[filename] = child;
 
@@ -299,16 +289,43 @@ function readIgnores()
 
 function readArgs() 
 {
-	cmd = process.argv.slice(2).join(' ');
+	if (process.argv.length > 2)
+		cmd = process.argv.slice(2).join(' ').trim();
+
+	if (!cmd)
+		process.exit(0);
+
+	if (process.argv.length > 2)
+		app = process.argv[2];
+	else
+		app = cmd.split(' ')[0];
+
+	if (process.argv.length > 3)
+		appargs = process.argv.slice(3);
+	else if (cmd.split(' ').length > 1)
+		appargs = cmd.split(' ').slice(1);
 }
 
 function readConfig()
 {
-	var cfg = {};
+	//setup config defaults
+	var cfg = 
+	{
+		command: null,
+		threshold: 200,
+		restart: true,
+		restartDelay: 500,
+		debug: 0
+	};
+
 	if (path.existsSync('smonconfig.json'))
 	{
-		cfg = fs.readFileSync('smonconfig.json', 'utf8');
-		cfg = JSON.parse(cfg);
+		var parsed_cfg = JSON.parse(fs.readFileSync('smonconfig.json', 'utf8'));
+
+		for(var prop in parsed_cfg)
+		{
+			cfg[prop] = parsed_cfg[prop];
+		}
 	}
 
 	return cfg;
