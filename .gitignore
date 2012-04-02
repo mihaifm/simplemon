@@ -1,2 +1,3 @@
 .smonignore
 smonconfig.json
+.gitignore
