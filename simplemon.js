@@ -314,7 +314,7 @@ function readConfig()
 	{
 		command: null,
 		threshold: 200,
-		restart: true,
+		restart: false,
 		restartDelay: 500,
 		debug: 0
 	};
