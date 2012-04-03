@@ -54,7 +54,7 @@ Here are the options and their default values:
 	{
 		"command" : null,
 		"threshold" : 200,
-		"restart" : true,
+		"restart" : false,
 		"restartDelay" : 500,
 		"debug" : false
 	}
