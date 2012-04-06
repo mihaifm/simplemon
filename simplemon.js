@@ -57,7 +57,7 @@ function runcmd(filename)
             return;
     }
 
-    if (filename.length > 0 && ignore(filename))
+    if (orig_filename.length > 0 && ignore(orig_filename))
         return;
 
     var temp_cmd = cmd;
@@ -76,7 +76,11 @@ function runcmd(filename)
 
         runningChildren[filename].kill();
         runningChildren[filename] = null;
-        setTimeout(function() { runcmd(filename); }, restartDelay);
+        resolvedFiles[filename] = +new Date;
+        setTimeout(function() { 
+            watchedFiles[filename] += restartDelay;
+            runcmd(filename); 
+        }, restartDelay);
         
         return;
     }
@@ -197,6 +201,7 @@ function monitor()
 
                                             //keep track of modification date for this file
                                             watchedFiles[resolvedPath] = +new Date;
+                                            watchedFiles[''] = watchedFiles[resolvedPath];
 
                                             callback(err, resolvedPath);
                                         });

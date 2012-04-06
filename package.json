@@ -4,7 +4,7 @@
   "homepage": "https://github.com/mihaifm/simplemon",
   "bin" : { "simplemon" : "./simplemon.js" },
   "description": "Simple file monitor that executes commands each time a file changes",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "repository": {
     "type": "git",
     "url": "https://github.com/mihaifm/simplemon.git"
