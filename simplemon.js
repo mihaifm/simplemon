@@ -284,7 +284,7 @@ function ignore(filename)
 
 function readIgnores()
 {
-    if (path.existsSync('.smonignore')) 
+    if (fs.existsSync('.smonignore')) 
     {
         ignoreRules = fs.readFileSync('.smonignore', 'utf8')
             .split('\n')
@@ -356,7 +356,7 @@ function readConfig()
         debug: 0
     };
 
-    if (path.existsSync('smonconfig.json'))
+    if (fs.existsSync('smonconfig.json'))
     {
         var parsed_cfg = JSON.parse(fs.readFileSync('smonconfig.json', 'utf8'));
 
